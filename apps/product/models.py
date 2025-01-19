@@ -21,7 +21,7 @@ class Product(models.Model):
         return self.name
 class Variation(models.Model):
     name = models.CharField(max_length= 30)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name="product_variant")
     banner_img = models.ImageField(upload_to='media/upload')
     price = models.FloatField()
     discount_price = models.FloatField()
