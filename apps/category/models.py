@@ -9,11 +9,11 @@ class Category(models.Model):
         ('ACTIVE', 'ACTIVE'),
         ('INACTIVE', 'INACTIVE')
     )
-    name = models.CharField()
+    name = models.CharField(max_length= 30)
     created_by = models.ForeignKey(User,on_delete=models.CASCADE)
     description = models.TextField(max_length= 500)
-    logo = models.ImageField(upload_to='/media/upload')
-    status = models.CharField(choices=status,default='ACTIVE')
+    logo = models.ImageField(upload_to='media/upload')
+    status = models.CharField(choices=status,default='ACTIVE',max_length= 30)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
     def __str__(self):
@@ -23,11 +23,11 @@ class Sub_Category(models.Model):
         ('ACTIVE', 'ACTIVE'),
         ('INACTIVE', 'INACTIVE')
     )
-    name = models.CharField()
+    name = models.CharField(max_length= 30)
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
-    description = models.TextField(max_length= 500)
-    logo = models.ImageField(upload_to='/media/upload')
-    status = models.CharField(choices=status,default='ACTIVE')
+    description = models.CharField(max_length= 500)
+    logo = models.ImageField(upload_to='media/upload')
+    status = models.CharField(choices=status,default='ACTIVE',max_length= 30)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
     def __str__(self):

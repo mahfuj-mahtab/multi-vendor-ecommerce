@@ -8,11 +8,11 @@ class Vendor(models.Model):
        ( 'SUSPEND' , 'SUSPEND'),
        ( 'WARNED', 'WARNED'),
     )
-    name = models.CharField()
+    name = models.CharField(max_length= 30)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    description = models.TextField(max_length=1000)
-    logo = models.ImageField(upload_to="/media/upload")
-    status = models.CharField(choices=status, default='PENDING')
+    description = models.CharField(max_length=1000)
+    logo = models.ImageField(upload_to="media/upload")
+    status = models.CharField(choices=status, default='PENDING',max_length= 30)
     rating = models.FloatField(default=0)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
