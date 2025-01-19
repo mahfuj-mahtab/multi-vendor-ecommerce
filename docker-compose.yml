@@ -1,0 +1,29 @@
+
+services:
+  web:
+    build: .
+    container_name: multivendorecom
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/multi_vendor_ecom
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://mohot:mohot@db:5432/multivendorecom
+
+  db:
+    image: postgres:15
+    container_name : ecom_multivendor_db
+    environment:
+      POSTGRES_USER: mohot
+      POSTGRES_PASSWORD: mohot
+      POSTGRES_DB: multivendorecom
+    ports:
+      - "5432:5432"
+    volumes:
+      - ecom_data:/var/lib/postgresql/data
+
+volumes:
+  ecom_data:
