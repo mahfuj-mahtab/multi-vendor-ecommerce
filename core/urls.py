@@ -19,6 +19,7 @@ from django.urls import  path, include
 from rest_framework.routers import DefaultRouter
 from apps.category.views import *
 from apps.product.views import *
+
 category_router = DefaultRouter()
 category_router.register(r'', CategoryView, basename='category')
 product_router = DefaultRouter()
@@ -27,6 +28,7 @@ product_router.register(r'', ProductView, basename='product')
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/v1/users/", include("apps.user.urls")),
     path("api/v1/category/", include(category_router.urls)),
     path("api/v1/products/", include(product_router.urls)),
 ]
