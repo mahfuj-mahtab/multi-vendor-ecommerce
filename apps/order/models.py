@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from apps.product.models import *
 from apps.vendor.models import *
+from apps.user.models import *
 
 # Create your models here.
 class Order(models.Model):
@@ -17,7 +18,7 @@ class Order(models.Model):
         ('UNPAID','UNPAID'),
         ('REFUNDED','REFUNDED'),
     )
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE)
     phone = models.CharField(max_length= 30)
     address = models.CharField(max_length= 30)

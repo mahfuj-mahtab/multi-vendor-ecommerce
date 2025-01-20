@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from apps.user.models import *
+
 # Create your models here.
 class Vendor(models.Model):
     status = (
@@ -9,7 +11,7 @@ class Vendor(models.Model):
        ( 'WARNED', 'WARNED'),
     )
     name = models.CharField(max_length= 30)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     description = models.CharField(max_length=1000)
     logo = models.ImageField(upload_to="media/upload")
     status = models.CharField(choices=status, default='PENDING',max_length= 30)
