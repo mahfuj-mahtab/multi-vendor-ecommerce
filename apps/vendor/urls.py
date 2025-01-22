@@ -16,25 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import  path, include
-from rest_framework.routers import DefaultRouter
 from apps.category.views import *
 from apps.product.views import *
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
-category_router = DefaultRouter()
-category_router.register(r'', CategoryView, basename='category')
-product_router = DefaultRouter()
-product_router.register(r'', ProductView, basename='product')
+from .views import *
 
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/v1/users/", include("apps.user.urls")),
-    path("api/v1/category/", include(category_router.urls)),
-    path("api/v1/products/", include(product_router.urls)),
-    path("api/v1/vendors/", include("apps.vendor.urls")),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('all/products/show/', VendorAllProductShow.as_view(), name='VendorAllProductSHow'),
+    path('single/product/<int:p_id>/details/', VendorSingleProductShow.as_view(), name='VendorSingleProductShow'),
+    # path('all/products/all/orders/', VendorAllProductShow.as_view(), name='VendorAllProductSHow'),
 ]
