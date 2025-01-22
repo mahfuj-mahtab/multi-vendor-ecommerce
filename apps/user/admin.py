@@ -10,9 +10,9 @@ class CustomUserAdmin(UserAdmin):
 
     # Define fieldsets for viewing and editing users
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('email', 'password','username')}),
         ('Personal Info', {'fields': ('first_name', 'last_name')}),
-        ('Custom Info', {'fields': ('phone', 'avatar','date_of_birth')}),
+        ('Custom Info', {'fields': ('phone', 'avatar','date_of_birth','email_verified','phone_verified')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )

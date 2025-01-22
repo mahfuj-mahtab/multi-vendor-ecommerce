@@ -25,5 +25,7 @@ urlpatterns = [
 
     path('all/products/show/', VendorAllProductShow.as_view(), name='VendorAllProductSHow'),
     path('single/product/<int:p_id>/details/', VendorSingleProductShow.as_view(), name='VendorSingleProductShow'),
-    # path('all/products/all/orders/', VendorAllProductShow.as_view(), name='VendorAllProductSHow'),
+    path('all/products/all/orders/', VendorAllProductsOrderShow.as_view(), name='VendorAllProductsOrderShow'),
+    path('all/products/single/order/<int:o_id>/details/', VendorAllProductsSingleOrderShow.as_view(), name='VendorAllProductsSingleOrderShow'),
+    path('single/order/<int:o_id>/order/item/<int:ot_id>/details', VendorSingleOrderItemShow.as_view(), name='VendorSingleOrderItemShow'),
 ]
