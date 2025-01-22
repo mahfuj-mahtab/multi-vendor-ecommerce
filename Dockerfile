@@ -10,6 +10,7 @@ WORKDIR /multi_vendor_ecom
 
 # Install dependencies
 COPY requirements.txt /multi_vendor_ecom/
+RUN cat requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the project files into the container

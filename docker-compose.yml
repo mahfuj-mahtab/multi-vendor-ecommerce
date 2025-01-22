@@ -2,7 +2,7 @@
 services:
   web:
     build: .
-    container_name: multivendorecom
+    container_name: ecom
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/multi_vendor_ecom
