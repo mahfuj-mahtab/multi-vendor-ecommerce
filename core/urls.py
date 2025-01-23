@@ -32,6 +32,7 @@ product_router.register(r'', ProductView, basename='product')
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/users/", include("apps.user.urls")),
+    path("api/v1/user/order/", include("apps.order.urls")),
     path("api/v1/category/", include(category_router.urls)),
     path("api/v1/products/", include(product_router.urls)),
     path("api/v1/vendors/", include("apps.vendor.urls")),
