@@ -38,9 +38,9 @@ class VendorSingleProductShow(APIView):
         user = request.user
         vendor = get_object_or_404(Vendor,user = user)
         product = get_object_or_404(Product,id = p_id,vendor = vendor)
-        serializers = Product(product,data = request.data,partial = True)
+        serializers = ProductSerializer(product,data = request.data,partial = True)
         if(serializers.is_valid()):
-            product.save(vendor = vendor)
+            serializers.save(vendor = vendor)
             return Response({"msg" : 'Product successfully '},status = status.HTTP_200_OK)
         else:
             return Response({"error" : serializers.errors},status = status.HTTP_400_BAD_REQUEST)

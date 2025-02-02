@@ -5,7 +5,7 @@ class VariantSerializer(serializers.ModelSerializer):
         model = Variation
         fields = '__all__'
 class ProductSerializer(serializers.ModelSerializer):
-    product_variant = VariantSerializer(many = True)
+    product_variant = VariantSerializer(many = True,read_only = True)
     class Meta:
         model = Product
         fields = '__all__'
