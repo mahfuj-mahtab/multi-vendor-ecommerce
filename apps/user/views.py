@@ -57,3 +57,14 @@ class UserLogin(APIView):
             return Response({"error": "Invalid email or password."}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+class UserOrder(APIView):
+    def post(self,request):
+        user = None
+        if(request.user.is_authenticated):
+            user = request.user
+        serializers = OrderSerializer(data = request.data)
+        if(serializers.is_valid()):
+            serializers.save(user = user)
+            return Response({"message": "Order Created"}, status = 201)
+        else:
+            return Response({"error": serializers.errors}, status = 403)

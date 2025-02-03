@@ -88,25 +88,25 @@ class VendorSingleOrderItemShow(APIView):
         user = request.user
         vendor = get_object_or_404(Vendor,user = user)
         order = get_object_or_404(Order,id = o_id,vendor = vendor)
-        order_item = get_object_or_404(OrderItem,id = ot_id,vendor = vendor,order = order)
+        order_item = get_object_or_404(OrderItem,id = ot_id,order = order)
         return Response({"data" : OrderItemSerializer(order_item).data},status = status.HTTP_200_OK)
     def patch(self,request,o_id,ot_id):
         user = request.user
         vendor = get_object_or_404(Vendor,user = user)
         order = get_object_or_404(Order,id = o_id,vendor = vendor)
-        order_item = get_object_or_404(OrderItem,id = ot_id,vendor = vendor,order = order)
+        order_item = get_object_or_404(OrderItem,id = ot_id,order = order)
         product = get_object_or_404(Product,id = request.data['product'])
         serializers = OrderItemSerializer(order_item,data = request.data,partial = True)
 
         if(serializers.is_valid()):
-            serializers.save(vendor = vendor,order = order,product = product)
+            serializers.save(order = order,product = product)
             return Response({"msg" : 'Order item successfully updated'},status = status.HTTP_200_OK)
         return Response({"error" : serializers.errors},status = status.HTTP_400_BAD_REQUEST)
     def delete(self,request,o_id,ot_id):
         user = request.user
         vendor = get_object_or_404(Vendor,user = user)
         order = get_object_or_404(Order,id = o_id,vendor = vendor)
-        order_item = get_object_or_404(OrderItem,id = ot_id,vendor = vendor,order = order)
+        order_item = get_object_or_404(OrderItem,id = ot_id,order = order)
         order_item.delete()
 
         return Response({"msg" : 'Order item delete success'},status = status.HTTP_200_OK)
