@@ -5,8 +5,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
-from django.contrib.auth import authenticate,login
-from .serializers import UserSerializer  # Ensure you have a UserSerializer defined
+from django.contrib.auth import authenticate,login,logout
+from .serializers import UserSerializer, CustomUserSerializer  # Ensure you have a UserSerializer defined
 from apps.vendor.models import *
 from apps.order.models import *
 from apps.order.serializers import *
@@ -56,7 +56,26 @@ class UserLogin(APIView):
             # Handle failed login
             return Response({"error": "Invalid email or password."}, status=status.HTTP_401_UNAUTHORIZED)
 
-
+class UserLogOut(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+        logout(request)
+        return Response({"message" : "Logout"},status = 200)
+    
+class UserProfile(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request):
+        user = UserSerializer(request.user).data
+        return Response({"data": user},status = 200)
+class UserProfileEdit(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+        serializers = CustomUserSerializer(request.user, data = request.data, partial = True)
+        if(serializers.is_valid()):
+            serializers.save()
+            return Response({"message": "User info updated"},status = 200)
+        else:
+            return Response({"error":serializers.errors}, status = 403)
 class UserOrder(APIView):
     def post(self,request):
         user = None
@@ -68,3 +87,10 @@ class UserOrder(APIView):
             return Response({"message": "Order Created"}, status = 201)
         else:
             return Response({"error": serializers.errors}, status = 403)
+        
+class UserSingleOrder(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request,o_id):
+        user = request.user
+        order = get_object_or_404(Order,id = o_id, user = user)
+        return Response({"data" : OrderSerializer(order).data},status = 200)

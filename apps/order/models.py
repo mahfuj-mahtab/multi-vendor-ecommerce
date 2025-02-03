@@ -18,7 +18,7 @@ class Order(models.Model):
         ('UNPAID','UNPAID'),
         ('REFUNDED','REFUNDED'),
     )
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,related_name="user_orders")
     vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE)
     phone = models.CharField(max_length= 30)
     address = models.CharField(max_length= 30)
