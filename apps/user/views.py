@@ -12,7 +12,7 @@ from apps.order.models import *
 from apps.order.serializers import *
 class UserRegister(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = CustomUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({"msg": "Registration Done"}, status=status.HTTP_201_CREATED)
