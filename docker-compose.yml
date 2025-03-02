@@ -15,7 +15,7 @@ services:
 
   db:
     image: postgres:15
-    container_name : ecom_multivendor_db
+    container_name : ecom_multivendor_db_1
     environment:
       POSTGRES_USER: mohot
       POSTGRES_PASSWORD: mohot
