@@ -25,7 +25,7 @@ class UserLogin(APIView):
         if not email or not password:
             return Response({"error": "Email and Password cannot be empty."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Assuming email is used as the username for authentication
+        
         user = authenticate(request, username=email.split("@")[0], password=password)
 
         if user is not None:

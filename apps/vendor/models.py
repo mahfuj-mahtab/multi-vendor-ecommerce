@@ -21,7 +21,7 @@ class Vendor(models.Model):
         return self.name
 
 class VendorDetails(models.Model):
-    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE,related_name='vendor_details')
     description = models.TextField(max_length=2000, blank=True, null=True)
     website = models.URLField(max_length=255, blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
@@ -36,18 +36,18 @@ class VendorDetails(models.Model):
     twitter = models.URLField(blank=True, null=True)
     linkedin = models.URLField(blank=True, null=True)
 
-# class VendorPaymentInfo(models.Model):
-#     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
-#     payment_method = models.CharField(max_length=100, blank=True, null=True)
-#     payment_account_id = models.CharField(max_length=255, blank=True, null=True)
+class VendorPaymentInfo(models.Model):
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE,related_name='vendor_payment_info')
+    payment_method = models.CharField(max_length=100, blank=True, null=True)
+    payment_account_id = models.CharField(max_length=255, blank=True, null=True)
 
-# class VendorDiscounts(models.Model):
-#     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
-#     discount_percentage = models.FloatField(default=0, blank=True, null=True)
-#     discount_code = models.CharField(max_length=50, blank=True, null=True)
-#     discount_valid_until = models.DateTimeField(blank=True, null=True)
+class VendorDiscounts(models.Model):
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE,related_name='vendor_discounts')
+    discount_percentage = models.FloatField(default=0, blank=True, null=True)
+    discount_code = models.CharField(max_length=50, blank=True, null=True)
+    discount_valid_until = models.DateTimeField(blank=True, null=True)
 
-# class VendorBusinessHours(models.Model):
-#     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
-#     business_hours_start = models.TimeField(blank=True, null=True)
-#     business_hours_end = models.TimeField(blank=True, null=True)
+class VendorBusinessHours(models.Model):
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE,related_name='vendor_business_hours')
+    business_hours_start = models.TimeField(blank=True, null=True)
+    business_hours_end = models.TimeField(blank=True, null=True)

@@ -19,13 +19,11 @@ class Order(models.Model):
         ('REFUNDED','REFUNDED'),
     )
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,related_name="user_orders")
-    vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE)
     phone = models.CharField(max_length= 30)
     address = models.CharField(max_length= 30)
     order_price = models.FloatField()
     status = models.CharField(choices=status, default='PENDING',max_length= 30)
     payment_status = models.CharField(choices=payment_status, default='UNPAID',max_length= 30)
-    tracking_info = models.CharField(max_length= 100)
     notes = models.CharField(blank=True,max_length= 300)
 
     createdAt = models.DateTimeField(auto_now_add=True)
@@ -55,7 +53,8 @@ class Payment(models.Model):
 class OrderItem(models.Model):
 
     order = models.ForeignKey(Order,on_delete=models.CASCADE,related_name='order_items')
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='order_items')
+    vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE,related_name='order_vendor')
     quantity = models.PositiveIntegerField(default=1)
     unit_price = models.FloatField()
     createdAt = models.DateTimeField(auto_now_add=True)
@@ -64,3 +63,12 @@ class OrderItem(models.Model):
     def __str__(self):
         return 'order items'
     
+class Tracking_history(models.Model):
+    order = models.ForeignKey(Order,on_delete=models.CASCADE,related_name='tracking_history')
+    tracking_status = models.CharField(max_length= 30)
+    tracking_notes = models.CharField(max_length= 300)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
+
+    def __str__(self):    
+        return 'tracking history'

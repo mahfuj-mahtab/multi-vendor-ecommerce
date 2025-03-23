@@ -5,3 +5,4 @@ from .models import *
 
 admin.site.register(Product)
 admin.site.register(Variation)
+admin.site.register(Attribute)
