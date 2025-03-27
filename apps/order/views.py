@@ -8,6 +8,9 @@ from .models import Order, Payment, OrderItem, Product, Vendor
 from .serializers import *
 from django.db import transaction
 from django.db.models import Q
+import stripe
+stripe.api_key = 'sk_test_51O2XiNAI0AhoVGU2aREROYBMBIU4J9S9VUIn45rVHQ5z7cbACqEUTBV7E4GTa8omyfk3AFR2vpBHs3tgk0RargU600Ql0AWMdR'
+
 # Create your views here.
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all().select_related('user', 'vendor').prefetch_related('order_items')
@@ -105,3 +108,25 @@ class UserOrder(APIView):
         #     serializer.save(user=user)
         #     return Response(serializer.data, status=status.HTTP_201_CREATED)
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class StripeCheckout(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, format=None):
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                payment_method_types=["card"],
+                line_items=[
+                    {
+                        "price": "price_1O2Y57AI0AhoVGU25C5aW6bt",  # ✅ Use Price ID, not Product ID
+                        "quantity": 1,
+                    },
+                ],
+                mode="payment",
+                success_url="http://localhost:5173/?success=true",
+                cancel_url="http://localhost:5173/?canceled=true",
+            )
+            return Response({"url": checkout_session.url})  # ✅ Return the checkout URL
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)  # ✅ Return error in response
