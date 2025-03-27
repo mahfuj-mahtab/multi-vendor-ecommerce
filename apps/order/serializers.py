@@ -17,10 +17,8 @@ class OrderSerializer(serializers.ModelSerializer):
     # tracking_history = TrackingHistorySerializer(many=True, required=False, read_only=True)
     class Meta:
         model = Order
-        fields = [
-            '__all__'
-        ]
-        read_only_fields = ['status', 'payment_status', 'createdAt', 'updatedAt']
+        fields = '__all__'
+        
 
 
 class PaymentSerializer(serializers.ModelSerializer):

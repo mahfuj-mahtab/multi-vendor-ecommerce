@@ -55,7 +55,7 @@ class UserOrder(APIView):
     def post(self, request, format=None):
         user = request.user
         data = request.data
-        print(request.data,'user order data')
+        # print(request.data,'user order data')
         customer_data = request.data['customer']
         try:
             with transaction.atomic():  # Ensure atomicity
@@ -114,18 +114,37 @@ class StripeCheckout(APIView):
 
     def post(self, request, format=None):
         try:
+            print(request.data,'request data')
+            order_items = request.data
+            
+            if not order_items:
+                return Response({"error": "No items in the order"}, status=400)
+
+            # ✅ 2. Create Stripe Products & Prices dynamically
+            line_items = []
+            for item in order_items:
+                product = stripe.Product.create(name=item["name"])
+
+                price = stripe.Price.create(
+                    unit_amount=int(item["discount_price"] * 100),  # Stripe needs amount in cents
+                    currency="usd",
+                    product=product.id,
+                )
+
+                line_items.append({
+                    "price": price.id,
+                    "quantity": item["quantity"],
+                })
+
+            # ✅ 3. Create Stripe Checkout Session with dynamic products
             checkout_session = stripe.checkout.Session.create(
                 payment_method_types=["card"],
-                line_items=[
-                    {
-                        "price": "price_1O2Y57AI0AhoVGU25C5aW6bt",  # ✅ Use Price ID, not Product ID
-                        "quantity": 1,
-                    },
-                ],
+                line_items=line_items,
                 mode="payment",
                 success_url="http://localhost:5173/?success=true",
                 cancel_url="http://localhost:5173/?canceled=true",
             )
+          
             return Response({"url": checkout_session.url})  # ✅ Return the checkout URL
 
         except Exception as e:
