@@ -10,14 +10,14 @@ class CustomUserSerializer(serializers.ModelSerializer):
     user_orders = OrderSerializer(many = True,read_only = True)
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        exclude = ("username",)
     def create(self, validated_data):
         password = validated_data.pop('password', None)  # Ensure password exists
         user = CustomUser(**validated_data)  # Create user instance without saving
         
         if password:
             user.set_password(password)  # Hash password properly
-        
+        user.username = validated_data.get('email').split('@')[0]
         user.save()  # Save user with hashed password
         return user
     def update(self, instance, validated_data):
